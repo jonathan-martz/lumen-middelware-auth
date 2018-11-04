@@ -68,14 +68,12 @@
 					return $next($request);
 				}
 				else{
-					$this->addResult('status', 'error');
-					$this->addResult('message', 'Token doesnt exists.');
+					$this->addMessage('error','Token doesnt exists.');
 					return $this->getResponse();
 				}
 			}
 			else{
-				$this->addResult('status', 'error');
-				$this->addResult('message', 'User doesnt exists.');
+				$this->addMessage('error','User doesnt exists.');
 				return $this->getResponse();
 			}
 		}

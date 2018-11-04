@@ -3,11 +3,8 @@
 	namespace App\Http\Middleware;
 
 	use App\Http\Controllers\Controller;
-	use App\User;
 	use Closure;
 	use Illuminate\Contracts\Auth\Factory as Auth;
-	use Illuminate\Support\Facades\Validator;
-	use Illuminate\Support\Facades\DB;
 
 	/**
 	 * Class Authenticate
@@ -45,32 +42,8 @@
 		 */
 		public function handle($request, Closure $next, $guard = null)
 		{
-			$validator = Validator::make($request->all(), [
-				'username' => 'required',
-				'token' => 'required|size:512'
-			])->validate();
-
-			$users = DB::connection('mysql.write')
-					   ->table('users')
-					   ->where('username','=',$request->input('username'))
-					   ->where('username_hash','=',sha1($request->input('username')));
-
-			$count = $users->count();
-
-			$user = $users->first();
-
-			if($count === 1){
-				$tokens = DB::connection('mysql.write')
-							->table('auth_tokens')
-							->where('UID','=',$user->id)
-							->where('token','=',$request->input('token'));
-				if($tokens->count() === 1){
-					return $next($request);
-				}
-				else{
-					$this->addMessage('error','Token doesnt exists.');
-					return $this->getResponse();
-				}
+			if($request->user() !== NULL){
+				return $next($request);
 			}
 			else{
 				$this->addMessage('error','User doesnt exists.');

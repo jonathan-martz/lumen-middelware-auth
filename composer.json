@@ -1,5 +1,5 @@
 {
-    "name":"mkaaaaaaay/lumen-middelware-auth",
+    "name":"jonathan-martz/lumen-middelware-auth",
     "description":"Php Lumen Middelware Auth",
     "require":{
         "php":"^7.1",

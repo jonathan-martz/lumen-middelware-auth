@@ -1,9 +1,10 @@
 {
     "name":"jonathan-martz/lumen-middelware-auth",
+    "license": "MIT",
     "description":"Php Lumen Middelware Auth",
     "require":{
-        "php":"^7.1",
-        "laravel/lumen-framework": "^5.6.0",
+        "php":"^7.1|^7.2|^7.3|^7.4",
+        "laravel/lumen-framework": "^5.6|^6.0",
         "jonathan-martz/lumen-controller": "^0.2"
     },
     "autoload": {

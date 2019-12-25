@@ -59,23 +59,26 @@ class Authenticate extends Controller
 
         $user = $users->first();
 
-        if($count === 1){
-            $tokens = DB::table('auth_tokens')
-                ->where('UID','=',$user->id)
-                ->where('token','=',$request->input('auth.token'));
-            if($tokens->count() === 1){
-                return $next($request);
+        if($user->getActive() === true){
+            if($count === 1){
+                $tokens = DB::table('auth_tokens')
+                    ->where('UID','=',$user->id)
+                    ->where('token','=',$request->input('auth.token'));
+                if($tokens->count() === 1){
+                    return $next($request);
+                }
+                else{
+                    $this->addMessage('error',' doesnt exists.');
+                    return $this->getResponse();
+                }
             }
             else{
-                $this->addResult('status', 'error');
-                $this->addResult('message', 'Token doesnt exists.');
+                $this->addMessage('error','User doesnt exists.');
                 return $this->getResponse();
             }
         }
         else{
-            $this->addResult('status', 'error');
-            $this->addResult('message', 'User doesnt exists.');
-            return $this->getResponse();
+            $this->addMessage('error','User isnt actived yet.');
         }
     }
 

@@ -28,10 +28,10 @@ class Authenticate extends Controller
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
+    public function __construct(Auth $auth, Request $request)
     {
         $this->auth = $auth;
-        parent::__construct();
+        parent::__construct($request);
     }
 
     /**

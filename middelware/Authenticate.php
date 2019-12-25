@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use App\Http\Controllers\Controller;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class Authenticate
@@ -25,7 +25,7 @@ class Authenticate extends Controller
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param \Illuminate\Contracts\Auth\Factory $auth
      * @return void
      */
     public function __construct(Auth $auth, Request $request)
@@ -37,9 +37,9 @@ class Authenticate extends Controller
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
@@ -51,27 +51,25 @@ class Authenticate extends Controller
         ])->validate();
 
         $users = DB::table('users')
-            ->where('username','=',$request->input('auth.username'))
-            ->where('username_hash','=',sha1($request->input('auth.username')));
+            ->where('username', '=', $request->input('auth.username'))
+            ->where('username_hash', '=', sha1($request->input('auth.username')));
 
         $count = $users->count();
 
         $user = $users->first();
 
-        if($count === 1){
+        if ($count === 1) {
             $tokens = DB::table('auth_tokens')
-                ->where('UID','=',$user->id)
-                ->where('token','=',$request->input('auth.token'));
-            if($tokens->count() === 1){
+                ->where('UID', '=', $user->id)
+                ->where('token', '=', $request->input('auth.token'));
+            if ($tokens->count() === 1) {
                 return $next($request);
-            }
-            else{
+            } else {
                 $this->addResult('status', 'error');
                 $this->addResult('message', 'Token doesnt exists.');
                 return $this->getResponse();
             }
-        }
-        else{
+        } else {
             $this->addResult('status', 'error');
             $this->addResult('message', 'User doesnt exists.');
             return $this->getResponse();

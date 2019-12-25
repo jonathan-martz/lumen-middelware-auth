@@ -43,6 +43,7 @@ class Authenticate extends Controller
      * @param string|null $guard
      * @return mixed
      * @todo try to replace request variable
+     * @todo update version to 0.2
      */
     public function handle($request, Closure $next, $guard = null)
     {

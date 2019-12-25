@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Support\Facades\Validator;
@@ -47,6 +46,7 @@ class Authenticate extends Controller
     {
         $validator = Validator::make($request->all(), [
             'auth.username' => 'required',
+            'auth.userid' => 'required|integer',
             'auth.token' => 'required|size:512'
         ])->validate();
 

@@ -59,7 +59,7 @@ class Authenticate extends Controller
 
         $user = $users->first();
 
-        if ($user->active === 1) {
+        if ($user->getActive() === true) {
             if ($count === 1) {
                 $tokens = DB::table('auth_tokens')
                     ->where('UID', '=', $user->id)

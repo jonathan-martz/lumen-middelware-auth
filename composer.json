@@ -4,6 +4,7 @@
   "description": "Php Lumen Middelware Auth",
   "require": {
     "php": "^7.1|^7.2|^7.3|^7.4",
+    "ext-http": "*",
     "laravel/lumen-framework": "^5.6|^6.0",
     "jonathan-martz/lumen-controller": "^0.2",
     "jonathan-martz/lumen-model-user": "dev-master"

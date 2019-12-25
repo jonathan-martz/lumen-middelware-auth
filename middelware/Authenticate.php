@@ -23,11 +23,11 @@ class Authenticate extends Controller
      */
     protected $auth;
 
+
     /**
-     * Create a new middleware instance.
-     *
+     * Authenticate constructor.
      * @param Auth $auth
-     * @return void
+     * @param Request $request
      */
     public function __construct(Auth $auth, Request $request)
     {
@@ -59,7 +59,7 @@ class Authenticate extends Controller
 
         $user = $users->first();
 
-        if ($user->getActive() === true) {
+        if ($user->active === 1) {
             if ($count === 1) {
                 $tokens = DB::table('auth_tokens')
                     ->where('UID', '=', $user->id)

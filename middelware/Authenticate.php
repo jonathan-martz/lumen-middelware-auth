@@ -58,9 +58,6 @@ class Authenticate extends Controller
             ->where('username', '=', $request->input('auth.username'))
             ->where('username_hash', '=', sha1($request->input('auth.username')));
 
-
-        $count = $users->count();
-
         $user = $users->first();
         if ($user) {
             $user = new User((array)$user);

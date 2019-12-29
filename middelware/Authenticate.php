@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Controller;
+use App\Model\User;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\Request;
@@ -57,14 +58,16 @@ class Authenticate extends Controller
             ->where('username', '=', $request->input('auth.username'))
             ->where('username_hash', '=', sha1($request->input('auth.username')));
 
+
         $count = $users->count();
 
         $user = $users->first();
+        if ($user) {
+            $user = new User((array)$user);
 
-        if ($user->getActive() === true) {
-            if ($count === 1) {
+            if ($user->getActive() === true) {
                 $tokens = DB::table('auth_tokens')
-                    ->where('UID', '=', $user->id)
+                    ->where('UID', '=', $user->getAuthIdentifier())
                     ->where('token', '=', $request->input('auth.token'));
                 if ($tokens->count() === 1) {
                     return $next($request);
@@ -73,12 +76,13 @@ class Authenticate extends Controller
                     return $this->getResponse();
                 }
             } else {
-                $this->addMessage('error', 'User doesnt exists.');
-                return $this->getResponse();
+                $this->addMessage('error', 'User isnt actived yet.');
             }
         } else {
-            $this->addMessage('error', 'User isnt actived yet.');
+            $this->addMessage('error', 'User doesnt exists.');
         }
+
+        return $this->getResponse();
     }
 
 }

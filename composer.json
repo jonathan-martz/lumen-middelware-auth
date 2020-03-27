@@ -7,9 +7,9 @@
     "illuminate/http": "^7.3",
     "illuminate/contracts": "^7.3",
     "illuminate/support": "^7.3",
-    "jonathan-martz/lumen-controller": "^0.4",
-    "jonathan-martz/lumen-model-user": "^0.2",
-    "jonathan-martz/lumen-provider-auth": "^0.2"
+    "jonathan-martz/lumen-controller": "dev-master",
+    "jonathan-martz/lumen-model-user": "dev-master",
+    "jonathan-martz/lumen-provider-auth": "dev-master"
   },
   "autoload": {
     "classmap": [
